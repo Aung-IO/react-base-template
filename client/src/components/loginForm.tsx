@@ -2,14 +2,17 @@
 import { useNavigate } from "react-router";
 import Logo from "../images/logo.png"
 import { useForm } from 'react-hook-form';
+import { useAuth } from "../context/AuthContext";
 
 type LoginProps = {
+    username: string;
     email: string;
     password: string;
 }
 
 const LoginForm = () => {
     const navigate = useNavigate()
+    const { setUser } = useAuth()
     const {
         register,
         handleSubmit,
@@ -21,7 +24,9 @@ const LoginForm = () => {
         console.log('Form Data:', data);
         // Handle login logic here
         if (data.email && data.password) {
+            setUser({ email: data.email })
             navigate('/dashboard')
+
         }
 
     };
@@ -40,6 +45,7 @@ const LoginForm = () => {
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">
                             Email
                         </label>
+                        {/* Email login */}
                         <input
                             type="email"
                             id="email"
@@ -55,7 +61,9 @@ const LoginForm = () => {
                                 }`}
                             placeholder="Enter your email"
                         />
-                        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
+
+                    
+                        
                     </div>
                     <div className="mb-6">
                         <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-600">
